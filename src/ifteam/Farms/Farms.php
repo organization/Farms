@@ -54,7 +54,7 @@ class Farms extends PluginBase implements Listener {
 		if (! $event->getPlayer ()->hasPermission ( "Farms" ) and ! $event->getPlayer ()->hasPermission ( "Farms.VIP" )) return;
 		$block = $event->getBlock ()->getSide ( 1 );
 		
-		// Cocoa been
+		// Cocoa bean
 		if ($event->getItem ()->getId () == Item::DYE and $event->getItem ()->getDamage () == 3) {
 			$tree = $event->getBlock ()->getSide ( $event->getFace () );
 			// Jungle wood
@@ -290,4 +290,3 @@ class CocoaBean extends Item {
 		return true;
 	}
 }
-?>
