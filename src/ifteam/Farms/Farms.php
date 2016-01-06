@@ -105,9 +105,11 @@ class Farms extends PluginBase implements Listener {
             }
 
             $level = isset($this->farmData[$key]['level']) ? $this->getServer()->getLevelByName($this->farmData[$key]['level']) : $this->getServer()->getDefaultLevel();
-
+            if(!$level instanceof Level)
+            	continue;
+            
             $coordinates = explode(".", $key);
-			$position = new Vector3($coordinates[0], $coordinates[1], $coordinates[2]);
+			$position = new Vector3((int)$coordinates[0], (int)$coordinates[1], (int)$coordinates[2]);
 
             if($this->updateCrops($key, $level, $position)){
                 unset($this->farmData[$key]);
@@ -164,7 +166,7 @@ class Farms extends PluginBase implements Listener {
 			return true;
 		}
 
-		$level->setBlock($position, Block::get($this->farmData[$key]["id"], $this->farmData[$key]["damage"]));
+		$level->setBlock($position, Block::get((int)$this->farmData[$key]["id"], (int)$this->farmData[$key]["damage"]));
         return false;
 	}
 
@@ -179,11 +181,11 @@ class Farms extends PluginBase implements Listener {
 			return true;
 		}
 		
-		$cropPosition = $position->setComponents($position->x, $position->y+$this->farmData[$key]["damage"], $position->z);
-		if($level->getBlockIdAt($cropPosition->x, $cropPosition->y, $cropPosition->z) !== Item::AIR){ //SOMETHING EXISTS
+		$cropPosition = $position->setComponents((int)$position->x, (int)$position->y+$this->farmData[$key]["damage"], (int)$position->z);
+		if($level->getBlockIdAt((int)$cropPosition->x, (int)$cropPosition->y, (int)$cropPosition->z) !== Item::AIR){ //SOMETHING EXISTS
 			return true;
 		}
-		$level->setBlock($cropPosition, Block::get($this->farmData[$key]["id"], 0));
+		$level->setBlock($cropPosition, Block::get((int)$this->farmData[$key]["id"], 0));
         return false;
 	}
 
@@ -216,8 +218,8 @@ class Farms extends PluginBase implements Listener {
                         continue;
                     }
 
-                    $cropPosition = $position->setComponents($position->x+$xOffset, $position->y, $position->z+$zOffset);
-                    if($level->getBlockIdAt($cropPosition->x, $cropPosition->y, $cropPosition->z) !== Item::AIR){ //SOMETHING EXISTS
+                    $cropPosition = $position->setComponents((int)$position->x+$xOffset, (int)$position->y, (int)$position->z+$zOffset);
+                    if($level->getBlockIdAt((int)$cropPosition->x, (int)$cropPosition->y, (int)$cropPosition->z) !== Item::AIR){ //SOMETHING EXISTS
                         $level->setBlock($cropPosition, $cropBlock);
                         return true;
                     }
@@ -226,7 +228,7 @@ class Farms extends PluginBase implements Listener {
             return true;
 		}
 
-		$level->setBlock($position, Block::get($this->farmData[$key]["id"], $this->farmData[$key]["damage"]));
+		$level->setBlock($position, Block::get((int)$this->farmData[$key]["id"], (int)$this->farmData[$key]["damage"]));
         return false;
 	}
 }
